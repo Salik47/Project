@@ -129,7 +129,6 @@ void displayBatchDetails(MYSQL *conn, char batch_id[20]){
 
     printf("Batch Details:\n");
     printf("List of Interns in this batch:-\n");
-
     while((row = mysql_fetch_row(result)) != NULL){
         printf("%s\n", row[1]);
     }

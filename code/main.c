@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <mysql.h>
-#include <intern.h>
-#include <batch.h>
-MYSQL *conn;
+#include <mysql/mysql.h>
+#include "intern.h"
+#include "batch.h"
 
-struct Intern(){
+struct Intern {
     char name[100]; 
     char college[255]; 
     char course[20]; 
@@ -23,7 +22,7 @@ struct InternPerformance {
     int perf_score; 
 };
 
-struct Batch(){
+struct Batch {
     char batch_id[20]; 
     char course_name[50]; 
     char category[50]; 
@@ -36,6 +35,7 @@ int main() {
     MYSQL_ROW row; 
     MYSQL_RES *res; 
     MYSQL_RES *result; 
+    MYSQL *conn;
 
     char *server = ""; 
     char *user = ""; 

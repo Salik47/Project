@@ -5,7 +5,7 @@
 // MYSQL *conn;
 
 void AddInternDetails(
-        MYSQL *conn,
+    MYSQL *conn,
     char name[255],
     char college[255],
     char course[20],

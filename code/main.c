@@ -189,9 +189,15 @@ int main() {
 
             case 4: 
                 struct InternPerformance iper;
+                char local_buffer[1024];
+                char local_buffer2[1024];
 
                 printf("\nEnter the Intern's id"); 
-                scanf("%d", &intern_id); 
+                if (!fgets(local_buffer, 1024, stdin))
+                {
+                    return 1; // reading input failed, give up
+                }
+                intern_id = atoi(local_buffer); // received input, convert it to integer 
                  
                 printf("Enter task: "); 
                 fgets(iper.task, sizeof(iper.task), stdin); 
@@ -200,8 +206,11 @@ int main() {
                 fgets(iper.status, sizeof(iper.status), stdin); 
                  
                 printf("Enter intern's performance score: "); 
-                scanf("%d", &iper.perf_score); 
-
+                if (!fgets(local_buffer2, 1024, stdin))
+                {
+                    return 1; // reading input failed, give up
+                }
+                iper.perf_score = atoi(local_buffer2); // received input, convert it to integer 
                  
                 EditInternPerformanceDetails(conn, intern_id, iper.task, iper.perf_score, iper.status); 
                 break;

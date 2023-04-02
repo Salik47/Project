@@ -136,8 +136,15 @@ int main() {
             case 2:
                 struct Intern i2;
 
+                char local_buffer[1024];
+
                 printf("\nEnter the ID of intern: "); 
-                scanf("%d", &intern_id); 
+                if (!fgets(local_buffer, 1024, stdin))
+                {
+                    return 1; // reading input failed, give up
+                }
+
+                intern_id = atoi(local_buffer); // received input, convert it to integer 
                  
                 printf("\nEnter the name of the intern: "); 
                 fgets(i2.name, sizeof(i2.name), stdin);
@@ -167,8 +174,15 @@ int main() {
                 break; 
 
             case 3: 
+                char local_buffer[1024];
+                
                 printf("\nEnter the ID of intern: "); 
-                scanf("%d", &intern_id); 
+                if (!fgets(local_buffer, 1024, stdin))
+                {
+                    return 1; // reading input failed, give up
+                }
+
+                intern_id = atoi(local_buffer); // received input, convert it to integer 
 
                 DeleteInternDetailsByID(conn, intern_id); 
                 break; 

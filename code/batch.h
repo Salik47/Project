@@ -4,6 +4,15 @@
 #include <mysql/mysql.h>
 // MYSQL *conn;
 
+void CheckConnection(MYSQL *conn) {
+    if (conn == NULL) {
+        fprintf(stderr, "Error: Failed to connect to MySQL database\n");
+        exit(1);
+    }
+
+    printf("%s", mysql_get_host_info(conn));
+}
+
 void AddBatchDetails(
     MYSQL *conn,
     char batch_id[20],
@@ -13,10 +22,8 @@ void AddBatchDetails(
     char end_date[20],
     char trainer_name[255]) {
         char query[500];
-        printf("6");
         sprintf(query, "INSERT INTO BATCH_DETAILS(BATCH_CODE, COURSE_ID, CATEGORY, START_DATE, END_DATE, TRAINER_NAME) VALUES ('%s', '%s','%s','%s','%s','%s')", batch_id, course_name, category, start_date, end_date, trainer_name);
 
-        printf("%s", *conn);
         if (mysql_query(conn, query)) {
             fprintf(stderr, "Error: Failed to insert batch into MySQL database\n");
             mysql_close(conn);
@@ -114,7 +121,7 @@ void DisplayListOfBatches(MYSQL *conn){
 
 }
 
-void displayBatchDetails(MYSQL *conn, char batch_id[20]){
+void DisplayBatchDetails(MYSQL *conn, char batch_id[20]){
     char query[500];
     printf("10");
     sprintf(query, "SELECT NAME FROM INTERN_DETAILS WHERE COURSE_ID='%s'", batch_id);

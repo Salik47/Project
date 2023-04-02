@@ -77,7 +77,8 @@ int main() {
     
     printf("**********MENU**********"); 
      
-    while (1) { 
+    while (1) {
+        printf("\n0. Check connection"); 
         printf("\n1. Insert Intern Details"); 
         printf("\n2. Edit Details of an Intern"); 
         printf("\n3. Delete Details of an Intern"); 
@@ -98,7 +99,9 @@ int main() {
 
         choice = atoi(buffer); // received input, convert it to integer
          
-        switch (choice) { 
+        switch (choice) {
+            case 0:
+                CheckConnection(conn); 
             case 1:             
                 struct Intern i;
 
@@ -160,14 +163,14 @@ int main() {
                 printf("\nEnter the description of the intern: "); 
                 fgets(i2.description, sizeof(i2.description), stdin); 
                  
-                EditInternDetails(conn, intern_id, i2.name, i2.college, i2.course, i2.date_of_birth, i2.gender, i2.address, i2.phone_number, i2.description);
+                EditInternDetailsUsingID(conn, intern_id, i2.name, i2.college, i2.course, i2.date_of_birth, i2.gender, i2.address, i2.phone_number, i2.description);
                 break; 
 
             case 3: 
                 printf("\nEnter the ID of intern: "); 
                 scanf("%d", &intern_id); 
 
-                DeleteInternDetailsById(conn, intern_id); 
+                DeleteInternDetailsByID(conn, intern_id); 
                 break; 
 
             case 4: 
@@ -183,10 +186,10 @@ int main() {
                 fgets(iper.status, sizeof(iper.status), stdin); 
                  
                 printf("Enter intern's performance score: "); 
-                scanf("%d", &iper.performance_score); 
+                scanf("%d", &iper.perf_score); 
 
                  
-                EditInternPerformanceDetails(conn, intern_id, iper.task, iper.performance_score, iper.status); 
+                EditInternPerformanceDetails(conn, intern_id, iper.task, iper.perf_score, iper.status); 
                 break;
 
             case 5:
@@ -250,12 +253,10 @@ int main() {
                 break;
 
  		    case 9:	   
-                struct Batch b;
-
                 printf("\nEnter the batch id: ");
                 fgets(batch_code, sizeof(batch_code), stdin);  
 
-                DisplayBatchDetails(conn, batch_code)
+                DisplayBatchDetails(conn, batch_code);
                 break;
 
             case 10:

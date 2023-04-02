@@ -5,32 +5,6 @@
 #include "intern.h"
 #include "batch.h"
 
-struct Intern {
-    char name[100]; 
-    char college[255]; 
-    char course[20]; 
-    char date_of_birth[20]; 
-    char gender[7]; 
-    char address[255]; 
-    char phone_number[10]; 
-    char description[255];
-};
-
-struct InternPerformance {
-    char task[100]; 
-    char status[30]; 
-    int perf_score; 
-};
-
-struct Batch {
-    char batch_id[20]; 
-    char course_name[50]; 
-    char category[50]; 
-    char start_date[20];     
-    char end_date[20]; 
-    char trainer_name[100]; 
-};
-
 int main() {
     MYSQL_ROW row; 
     MYSQL_RES *res; 
@@ -102,183 +76,36 @@ int main() {
         switch (choice) {
             case 0:
                 CheckConnection(conn); 
-            case 1:             
-                struct Intern i;
-
-                printf("\nEnter the name of the intern: "); 
-                fgets(i.name, sizeof(i.name), stdin);
-                 
-                printf("\nEnter the college of the intern: "); 
-                fgets(i.college, sizeof(i.college), stdin);
-                 
-                printf("\nEnter the course of the intern: "); 
-                fgets(i.course, sizeof(i.course), stdin); 
-
-
-                printf("\nEnter the DOB of the intern (in YYYY-MM-DD format): "); 
-                fgets(i.date_of_birth, sizeof(i.date_of_birth), stdin); 
-
-                printf("\nEnter the gender of the intern: "); 
-                fgets(i.gender, sizeof(i.gender), stdin); 
-                 
-                printf("\nEnter the address of the intern: "); 
-                fgets(i.address, sizeof(i.address), stdin); 
-
-                printf("\nEnter the mobile number of the intern: "); 
-                fgets(i.phone_number, sizeof(i.phone_number), stdin); 
-                 
-                printf("\nEnter the description of the intern: "); 
-                fgets(i.description, sizeof(i.description), stdin); 
-                 
-                AddInternDetails(conn, i.name, i.college, i.course, i.date_of_birth, i.gender, i.address, i.phone_number, i.description);
+            case 1:                 
+                AddInternDetails();
                 break; 
-
             case 2:
-                struct Intern i2;
-
-                char local_buffer[1024];
-
-                printf("\nEnter the ID of intern: "); 
-                if (!fgets(local_buffer, 1024, stdin))
-                {
-                    return 1; // reading input failed, give up
-                }
-
-                intern_id = atoi(local_buffer); // received input, convert it to integer 
-                 
-                printf("\nEnter the name of the intern: "); 
-                fgets(i2.name, sizeof(i2.name), stdin);
-                 
-                printf("\nEnter the college of the intern: "); 
-                fgets(i2.college, sizeof(i2.college), stdin);
-                 
-                printf("\nEnter the course of the intern: "); 
-                fgets(i2.course, sizeof(i2.course), stdin); 
-
-                printf("\nEnter the DOB of the intern (in YYYY-MM-DD format): "); 
-                fgets(i2.date_of_birth, sizeof(i2.date_of_birth), stdin); 
-                 
-                printf("\nEnter the gender of the intern: "); 
-                fgets(i2.gender, sizeof(i2.gender), stdin); 
-                 
-                printf("\nEnter the address of the intern: "); 
-                fgets(i2.address, sizeof(i2.address), stdin); 
-
-                printf("\nEnter the mobile number of the intern: "); 
-                fgets(i2.phone_number, sizeof(i2.phone_number), stdin); 
-                 
-                printf("\nEnter the description of the intern: "); 
-                fgets(i2.description, sizeof(i2.description), stdin); 
-                 
-                EditInternDetailsUsingID(conn, intern_id, i2.name, i2.college, i2.course, i2.date_of_birth, i2.gender, i2.address, i2.phone_number, i2.description);
+                EditInternDetailsUsingID();
                 break; 
-
-            case 3: 
-                char local_buffer[1024];
-                
-                printf("\nEnter the ID of intern: "); 
-                if (!fgets(local_buffer, 1024, stdin))
-                {
-                    return 1; // reading input failed, give up
-                }
-
-                intern_id = atoi(local_buffer); // received input, convert it to integer 
-
-                DeleteInternDetailsByID(conn, intern_id); 
+            case 3:
+                DeleteInternDetailsByID(); 
                 break; 
-
-            case 4: 
-                struct InternPerformance iper;
-
-                printf("\nEnter the Intern's id"); 
-                scanf("%d", &intern_id); 
-                 
-                printf("Enter task: "); 
-                fgets(iper.task, sizeof(iper.task), stdin); 
-                 
-                printf("Enter status: "); 
-                fgets(iper.status, sizeof(iper.status), stdin); 
-                 
-                printf("Enter intern's performance score: "); 
-                scanf("%d", &iper.perf_score); 
-
-                 
-                EditInternPerformanceDetails(conn, intern_id, iper.task, iper.perf_score, iper.status); 
+            case 4:             
+                EditInternPerformanceDetails(); 
                 break;
-
             case 5:
-                struct Batch b;
-
-                printf("\nEnter the batch id: ");
-                fgets(b.batch_id, sizeof(b.batch_id), stdin); 
-
-                printf("\nEnter the Course name: "); 
-                fgets(b.course_name, sizeof(b.course_name), stdin); 
-
-                printf("\nEnter the Category of Course: "); 
-                fgets(b.category, sizeof(b.category), stdin); 
-
-                printf("\nEnter the Start date of Batch (in YYYY-MM-DD format): "); 
-                fgets(b.start_date, sizeof(b.start_date), stdin); 
-
-                printf("\nEnter the End date of Batch (in YYYY-MM-DD format): "); 
-                fgets(b.end_date, sizeof(b.end_date), stdin); 
-
-                printf("\nEnter the Trainer's name: "); 
-                fgets(b.trainer_name, sizeof(b.trainer_name), stdin); 
-  
-                AddBatchDetails(conn, b.batch_id , b.course_name, b.category, b.start_date, b.end_date, b.trainer_name); 
+                AddBatchDetails(); 
                 break; 
-
             case 6:
-
-                struct Batch b2;
-
-                printf("\nEnter the batch id: ");
-                fgets(b2.batch_id, sizeof(b2.batch_id), stdin); 
-
-                printf("\nEnter the Course name: "); 
-                fgets(b2.course_name, sizeof(b2.course_name), stdin); 
-
-                printf("\nEnter the Category of Course: "); 
-                fgets(b2.category, sizeof(b2.category), stdin);
-
-                printf("\nEnter the Start date of Batch (in YYYY-MM-DD format): "); 
-                fgets(b2.start_date, sizeof(b2.start_date), stdin); 
-
-                printf("\nEnter the End date of Batch (in YYYY-MM-DD format): "); 
-                fgets(b2.end_date, sizeof(b2.end_date), stdin); 
-
-                printf("\nEnter the Trainer's name: "); 
-                fgets(b2.trainer_name, sizeof(b2.trainer_name), stdin); 
-  
-                EditBatchDetailsUsingID(conn, b2.batch_id , b2.course_name, b2.category, b2.start_date, b2.end_date, b2.trainer_name); 
+                EditBatchDetailsUsingID(); 
                 break; 
-
             case 7:
-                printf("\nEnter the batch id: ");
-                fgets(batch_code, sizeof(batch_code), stdin); 
-
-                DeleteBatchDetailsByID(conn, batch_code); 
+                DeleteBatchDetailsByID(); 
                 break; 
-
             case 8:
-  		        DisplayListOfBatches(conn); 
+  		        DisplayListOfBatches(); 
                 break;
-
  		    case 9:	   
-                printf("\nEnter the batch id: ");
-                fgets(batch_code, sizeof(batch_code), stdin);  
-
-                DisplayBatchDetails(conn, batch_code);
+                DisplayBatchDetails();
                 break;
-
             case 10:
-                printf("\nEnter Intern's ID: ");
-                scanf("%d", &intern_id);
-                DisplayInternPerformance(conn, intern_id);
+                DisplayInternPerformance();
                 break;
-
             case 11: 
                 mysql_close(conn);               
                 exit(1);                 
